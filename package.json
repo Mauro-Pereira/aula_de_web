@@ -1,0 +1,15 @@
+{
+  "name": "devplace",
+  "version": "1.0.0",
+  "description": "Atividade referente a disciplina de Desenvolvimento Web do curso Licenciatura em Computação",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mauro Pereira dos Santos",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "mdb-ui-kit": "^3.10.2"
+  }
+}
