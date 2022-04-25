@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-await mongoose.connect('mongodb+srv://aulaWeb:mapereira@cluster0.bzv1z.mongodb.net/aulaWeb?retryWrites=true&w=majority')
+await mongoose.connect(process.env.MONGODB_URL)
 .catch(error => handleError(error));
 
 module.exports = mongoose;
