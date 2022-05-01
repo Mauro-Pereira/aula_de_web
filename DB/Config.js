@@ -1,8 +1,10 @@
-const mongoose = require('mongoose');
 require('dotenv').config();
+const mongoose = require('mongoose');
 
-await mongoose.connect(process.env.MONGODB_URL)
-.catch(error => handleError(error));
+
+console.log("VENDO O QUE ESTÁ DENTRO DO ENV: ", process.env)
+mongoose.connect(process.env.MONGODB_URL)
+.catch(error => console.log(error));
 
 module.exports = mongoose;
 
