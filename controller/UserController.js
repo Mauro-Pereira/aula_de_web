@@ -67,8 +67,8 @@ module.exports = {
 
         novoUsuario.save(function (err) {
             if (err) throw err;
-            
-            res.status(200).json({msg:'user successfully created'});
+
+            res.status(200).json({ msg: 'user successfully created' });
         });
     },
 
@@ -79,4 +79,25 @@ module.exports = {
             return res.status(200).json(user);
         }
     },
+
+    signIn: async (req, res) => {
+/*
+        const verifyComparePassword = await user.findOne({ email: req.body.email }, function (err, user) {
+            if (err) throw err;
+
+            if (!user) {
+                res.status(404).json({ msg: "User Not Found" });
+            }
+
+            let verifyComparePassword = await user.comparePassword(req.body.password, user.password, function (err, isMatch) {
+                if (err) throw err;
+
+               // return isMatch
+            });
+
+           // return verifyComparePassword;
+        }
+
+*/
+    }
 }
