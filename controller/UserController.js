@@ -1,4 +1,5 @@
 const user = require('../model/User');
+const generateToken = require('../Config/tokenGenerate');
 
 
 /*
@@ -73,31 +74,65 @@ module.exports = {
     },
 
     listAllUser: async (req, res) => {
-
-        const users = user.find({});
+        const users = await user.find({});
         if (users) {
-            return res.status(200).json(user);
+            return res.status(200).json(users);
         }
+
     },
 
     signIn: async (req, res) => {
-/*
-        const verifyComparePassword = await user.findOne({ email: req.body.email }, function (err, user) {
-            if (err) throw err;
 
-            if (!user) {
-                res.status(404).json({ msg: "User Not Found" });
-            }
+        const newUser = await user.findOne({ email: req.body.email });
 
-            let verifyComparePassword = await user.comparePassword(req.body.password, user.password, function (err, isMatch) {
-                if (err) throw err;
-
-               // return isMatch
-            });
-
-           // return verifyComparePassword;
+        if (!newUser) {
+            res.status(404).json({ msg: "User Not Found" });
         }
 
-*/
+        const verifyComparePassword = await newUser.comparePassword(req.body.password, newUser.password);
+
+        if (!verifyComparePassword) {
+            res.status(401).json({ msg: 'Password not found' });
+        }
+
+        const id = newUser._id;
+
+        res.send({ newUser, token: generateToken({ id: id }) })
+    },
+
+    deleteUser: async (req, res) => {
+        const id = req.params.id;
+
+        console.log("testando ID: ", id);
+
+        if (!id) { return res.status(404).json("User doest exist") }
+
+        const deletetedUser = await user.findOneAndDelete({ _id: id });
+
+        if (!deletetedUser) { return res.status(404).json("User doest exist") }
+
+        return res.status(200).json(deletetedUser);
+    },
+
+    updateUser: async (req, res) => {
+
+        const id = req.params.id;
+
+        const userToBeUpdated = {
+            name: req.body.name,
+            email: req.body.email,
+            Age: req.body.age,
+            country: req.body.country,
+            language: req.body.language,
+            password: req.body.password,
+        }
+
+        const newUser = await user.findOneAndUpdate({ _id: id }, userToBeUpdated);
+
+        if (!newUser) {
+            return res.status(404).json({ msg: "User not found" });
+        }
+
+        return res.status(200).json("Updated with successfully");
     }
 }

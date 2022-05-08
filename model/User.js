@@ -32,13 +32,21 @@ UserSchema.pre('save', function(next) {
         });
     });
 });
-     
+
+/*
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {
     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
         if (err) return cb(err);
         cb(null, isMatch);
     });
+    
 };
+*/
+
+UserSchema.methods.comparePassword = (password,hashPassword) =>{
+    const comparedPassword = bcrypt.compareSync(password,hashPassword);
+    return comparedPassword;
+}
 
 User = mongoose.model('User', UserSchema);
 
